@@ -1,188 +1,123 @@
 /**
- * Urban Infrastructure Digital Twin - Visualizations
- * Handles Canvas animations and complex visual effects
+ * Modern 3D Visualization - Floating Particles
  */
 
-class CityGrid {
-    constructor(canvasId) {
-        this.canvas = document.getElementById(canvasId);
-        if (!this.canvas) return;
+class ModernScene {
+    constructor() {
+        this.container = document.getElementById('canvas-container');
+        if (!this.container) return;
 
-        this.ctx = this.canvas.getContext('2d');
-        this.width = window.innerWidth;
-        this.height = window.innerHeight;
+        this.scene = new THREE.Scene();
+        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        this.container.appendChild(this.renderer.domElement);
+
+        this.clock = new THREE.Clock();
         this.particles = [];
-        this.gridLines = [];
 
         this.init();
+        this.animate();
+        this.addEventListeners();
     }
 
     init() {
-        this.resize();
-        window.addEventListener('resize', () => this.resize());
-        this.createGrid();
-        this.animate();
+        this.camera.position.z = 50;
+
+        // Create floating particles
+        this.createParticles();
+
+        // Add lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        this.scene.add(ambientLight);
+
+        const pointLight = new THREE.PointLight(0x667eea, 1, 100);
+        pointLight.position.set(0, 0, 20);
+        this.scene.add(pointLight);
     }
 
-    resize() {
-        this.width = window.innerWidth;
-        this.height = window.innerHeight;
-        this.canvas.width = this.width;
-        this.canvas.height = this.height;
-        this.createGrid();
-    }
+    createParticles() {
+        const geometry = new THREE.SphereGeometry(0.5, 16, 16);
+        const colors = [0x667eea, 0x764ba2, 0x4facfe, 0xf093fb];
 
-    createGrid() {
-        this.gridLines = [];
-        // Perspective Grid setup
-        const horizon = this.height * 0.35; // Higher horizon for more depth
-        const gridSpacing = 40;
-
-        // Vertical lines (perspective)
-        for (let x = -this.width; x < this.width * 2; x += gridSpacing) {
-            this.gridLines.push({
-                x1: x,
-                y1: this.height,
-                x2: (x - this.width / 2) * 0.1 + this.width / 2, // Stronger convergence
-                y2: horizon,
-                type: 'vertical'
+        for (let i = 0; i < 100; i++) {
+            const material = new THREE.MeshPhongMaterial({
+                color: colors[Math.floor(Math.random() * colors.length)],
+                emissive: colors[Math.floor(Math.random() * colors.length)],
+                emissiveIntensity: 0.3,
+                transparent: true,
+                opacity: 0.6
             });
-        }
 
-        // Horizontal lines
-        for (let y = this.height; y > horizon; y -= gridSpacing * 0.5) {
-            const progress = (y - horizon) / (this.height - horizon);
-            // Skip some lines for rhythm
-            if (Math.round(y) % 3 === 0) continue;
+            const particle = new THREE.Mesh(geometry, material);
 
-            this.gridLines.push({
-                y: y,
-                type: 'horizontal'
-            });
-        }
-    }
+            particle.position.x = (Math.random() - 0.5) * 100;
+            particle.position.y = (Math.random() - 0.5) * 100;
+            particle.position.z = (Math.random() - 0.5) * 100;
 
-    drawGrid() {
-        // Gradient fade for grid
-        const gradient = this.ctx.createLinearGradient(0, this.height * 0.4, 0, this.height);
-        gradient.addColorStop(0, 'rgba(20, 184, 166, 0)');
-        gradient.addColorStop(0.5, 'rgba(20, 184, 166, 0.1)'); // Teal glow
-        gradient.addColorStop(1, 'rgba(20, 184, 166, 0.05)');
+            particle.userData = {
+                velocity: {
+                    x: (Math.random() - 0.5) * 0.02,
+                    y: (Math.random() - 0.5) * 0.02,
+                    z: (Math.random() - 0.5) * 0.02
+                }
+            };
 
-        this.ctx.strokeStyle = gradient;
-        this.ctx.lineWidth = 1;
-        this.ctx.shadowBlur = 0;
-
-        this.gridLines.forEach(line => {
-            this.ctx.beginPath();
-            if (line.type === 'vertical') {
-                this.ctx.moveTo(line.x1, line.y1);
-                this.ctx.lineTo(line.x2, line.y2);
-            } else {
-                this.ctx.moveTo(0, line.y);
-                this.ctx.lineTo(this.width, line.y);
-            }
-            this.ctx.stroke();
-        });
-    }
-
-    spawnParticle() {
-        // More active traffic
-        if (Math.random() > 0.85) {
-            const type = Math.random() > 0.5 ? 'vertical' : 'horizontal';
-            let particle = {};
-
-            if (type === 'vertical') {
-                const lines = this.gridLines.filter(l => l.type === 'vertical');
-                const line = lines[Math.floor(Math.random() * lines.length)];
-
-                particle = {
-                    x: line.x2,
-                    y: line.y2,
-                    targetX: line.x1,
-                    targetY: line.y1,
-                    speed: 5 + Math.random() * 5, // Faster
-                    size: 1.5,
-                    color: '#10b981', // Green
-                    trail: []
-                };
-            } else {
-                const y = this.height - Math.random() * (this.height * 0.6);
-                particle = {
-                    x: 0,
-                    y: y,
-                    targetX: this.width,
-                    targetY: y,
-                    speed: 8 + Math.random() * 5, // Faster
-                    size: 1.5,
-                    color: '#3b82f6', // Blue
-                    trail: []
-                };
-            }
+            this.scene.add(particle);
             this.particles.push(particle);
         }
     }
 
-    updateParticles() {
-        for (let i = this.particles.length - 1; i >= 0; i--) {
-            const p = this.particles[i];
+    addEventListeners() {
+        window.addEventListener('resize', this.onResize.bind(this));
 
-            // Capture trail position
-            p.trail.push({ x: p.x, y: p.y });
-            if (p.trail.length > 15) p.trail.shift();
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 2 - 1;
+            const y = -(e.clientY / window.innerHeight) * 2 + 1;
 
-            // Move
-            const dx = p.targetX - p.x;
-            const dy = p.targetY - p.y;
+            gsap.to(this.camera.position, {
+                x: x * 5,
+                y: y * 5,
+                duration: 1
+            });
+        });
+    }
 
-            if (Math.abs(dx) < 1 && Math.abs(dy) < 1 || p.x > this.width || p.y > this.height) {
-                this.particles.splice(i, 1);
-                continue;
-            }
-
-            const angle = Math.atan2(dy, dx);
-            p.x += Math.cos(angle) * p.speed;
-            p.y += Math.sin(angle) * p.speed;
-
-            // Draw Trail
-            this.ctx.beginPath();
-            for (let j = 0; j < p.trail.length; j++) {
-                const point = p.trail[j];
-                this.ctx.lineTo(point.x, point.y);
-            }
-            this.ctx.strokeStyle = p.color;
-            this.ctx.lineWidth = p.size;
-            // Trail fades out at tail
-            this.ctx.globalAlpha = 0.5;
-            this.ctx.stroke();
-            this.ctx.globalAlpha = 1;
-
-            // Draw Head
-            this.ctx.fillStyle = '#fff';
-            this.ctx.shadowBlur = 10;
-            this.ctx.shadowColor = p.color;
-            this.ctx.beginPath();
-            this.ctx.arc(p.x, p.y, p.size + 1, 0, Math.PI * 2);
-            this.ctx.fill();
-            this.ctx.shadowBlur = 0;
-        }
+    onResize() {
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
     animate() {
-        this.ctx.clearRect(0, 0, this.width, this.height);
+        requestAnimationFrame(this.animate.bind(this));
 
-        // Add subtle background fade instead of clear for motion blur feel? 
-        // No, keep clean for tech look.
+        const time = this.clock.getElapsedTime();
 
-        this.drawGrid();
-        this.spawnParticle();
-        this.updateParticles();
+        // Animate particles
+        this.particles.forEach(particle => {
+            particle.position.x += particle.userData.velocity.x;
+            particle.position.y += particle.userData.velocity.y;
+            particle.position.z += particle.userData.velocity.z;
 
-        requestAnimationFrame(() => this.animate());
+            // Bounce off boundaries
+            if (Math.abs(particle.position.x) > 50) particle.userData.velocity.x *= -1;
+            if (Math.abs(particle.position.y) > 50) particle.userData.velocity.y *= -1;
+            if (Math.abs(particle.position.z) > 50) particle.userData.velocity.z *= -1;
+
+            // Gentle rotation
+            particle.rotation.x += 0.01;
+            particle.rotation.y += 0.01;
+        });
+
+        this.camera.lookAt(0, 0, 0);
+        this.renderer.render(this.scene, this.camera);
     }
 }
 
-// Initialize when DOM is ready
+// Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    const cityGrid = new CityGrid('cityGrid');
+    window.cityScene = new ModernScene();
 });

@@ -1,428 +1,330 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CivicTwin | Urban Infrastructure Intelligence</title>
-    <meta name="description" content="A data-driven, AI-powered approach to modernizing urban infrastructure using Digital Twins and transparency systems.">
-    
-    <!-- Google Fonts -->
+    <title>Transform Indian Cities | Digital Infrastructure Solutions</title>
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&family=Space+Mono&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- Styles -->
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/animations.css">
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
+
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="container nav-container">
-            <a href="#" class="logo">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-accent-teal);">
-                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                    <polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline>
-                    <polyline points="7.5 19.79 7.5 14.6 3 12"></polyline>
-                    <polyline points="21 12 16.5 14.6 16.5 19.79"></polyline>
-                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                </svg>
-                <span>Polis</span>Twin
-            </a>
+    <!-- 3D Background -->
+    <div id="canvas-container"></div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">🏙️</span>
+                <span class="logo-text">InfraIndia</span>
+            </div>
             <div class="nav-links">
-                <a href="#problem" class="nav-link">The Problem</a>
-                <a href="#digital-twin" class="nav-link">Digital Twin</a>
-                <a href="#architecture" class="nav-link">Architecture</a>
-                <a href="#impact" class="nav-link">Impact</a>
+                <a href="#problem">The Problem</a>
+                <a href="#solution">Solutions</a>
+                <a href="#impact">Impact</a>
+                <a href="#contact" class="nav-cta">Get Involved</a>
             </div>
         </div>
     </nav>
 
-    <main>
-        <!-- Hero Section -->
-        <section class="section" style="padding-top: 140px; min-height: 100vh; display: flex; align-items: center; position: relative;">
-            <div class="hero-bg">
-                <canvas id="cityGrid" class="city-grid-canvas"></canvas>
-            </div>
-            
-            <div class="container hero-content">
-                <div class="section-label glitch-text" data-text="URBAN INTELLIGENCE SYSTEM v1.0">Urban Intelligence System v1.0</div>
-                <h1 style="max-width: 20ch; margin-bottom: 1.5rem;">
-                    Transforming <span style="color: var(--color-accent-teal)">Unplanned Cities</span> Through Digital Infrastructure Intelligence
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">🇮🇳 India's Infrastructure Revolution</div>
+                <h1 class="hero-title">
+                    Transform Indian Cities
+                    <span class="gradient-text">Without Rebuilding Them</span>
                 </h1>
-                <p class="text-xl" style="font-size: 1.25rem; margin-bottom: 2.5rem;">
-                    A data-driven, AI-powered approach to modernizing urban infrastructure without rebuilding cities. 
-                    <span class="typing-cursor"></span>
+                <p class="hero-description">
+                    Smart digital solutions to fix corruption, poor planning, and maintenance gaps.
+                    Real-time monitoring, transparent tracking, and citizen participation for better infrastructure.
                 </p>
-                <div class="flex gap-md">
-                    <a href="#problem" class="btn btn-primary">Explore the Problem</a>
-                    <a href="#architecture" class="btn btn-outline">View Architecture</a>
-                </div>
-            </div>
-            
-            <a href="#problem" style="position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); animation: float 2s infinite ease-in-out; color: var(--color-text-secondary); opacity: 0.7;">
-                ↓ Scroll to Initialize
-            </a>
-        </section>
-
-        <!-- Section 1: Problem Statement -->
-        <section id="problem" class="section section-alt">
-            <div class="container">
-                <div class="section-header reveal">
-                    <span class="section-label">01 // Problem Statement</span>
-                    <h2 class="section-title">The Core Problem: Cities Without Systems</h2>
-                    <p class="section-desc">
-                        Current urban infrastructure operates like legacy software: no version control, no real-time monitoring, and failures are only detected after accidents occur.
-                    </p>
-                </div>
-
-                <div class="grid grid-4">
-                    <div class="card reveal stagger-delay-1">
-                        <div class="icon-box">🚧</div>
-                        <h3>Unplanned Growth</h3>
-                        <p>Road networks expand organically without systemic planning, leading to bottlenecks and dangerous junctions.</p>
-                    </div>
-                    <div class="card reveal stagger-delay-2">
-                        <div class="icon-box">📉</div>
-                        <h3>Reactive Maintenance</h3>
-                        <p>Repairs happen only after failures or citizen complaints, increasing costs by 40% compared to preventive care.</p>
-                    </div>
-                    <div class="card reveal stagger-delay-3">
-                        <div class="icon-box">🔇</div>
-                        <h3>Data Silos</h3>
-                        <p>Information is locked in paper files across disconnected government departments, preventing coordinated action.</p>
-                    </div>
-                    <div class="card reveal stagger-delay-4">
-                        <div class="icon-box">👁️</div>
-                        <h3>Zero Visibility</h3>
-                        <p>No central dashboard exists to track the lifecycle, warranty, or contractor performance of public assets.</p>
-                    </div>
-                </div>
-
-                <div class="code-block reveal" style="margin-top: 4rem;">
-                    <span class="code-comment">// Current System Status: CRITICAL FAILURE</span><br>
-                    <span class="code-keyword">if</span> (city.infrastructure.monitoring == <span class="code-keyword">null</span>) {<br>
-                    &nbsp;&nbsp;city.status = <span class="code-string">"REACTIVE_MODE"</span>;<br>
-                    &nbsp;&nbsp;risk_level = <span class="code-string">"EXTREME"</span>;<br>
-                    }
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 2: Digital Twin Model -->
-        <section id="digital-twin" class="section">
-            <div class="container">
-                <div class="grid grid-2 items-center">
-                    <div class="reveal">
-                        <span class="section-label">02 // Digital Twin Solution</span>
-                        <h2 class="section-title">A Virtual Replica of the City</h2>
-                        <p>
-                            We create a living digital model where every road, footpath, dain, and junction is assigned a unique digital identity. This creates a single source of truth for urban management.
-                        </p>
-                        
-                        <ul class="feature-list" style="margin-top: 2rem;">
-                            <li><strong>Asset ID Generation:</strong> Unique hash for every infrastructure element.</li>
-                            <li><strong>Metadata Storage:</strong> Construction date, material type, contractor details, warranty period.</li>
-                            <li><strong>Lifecycle Tracking:</strong> Complete history of repairs and inspections.</li>
-                        </ul>
-
-                        <div class="flex gap-md" style="margin-top: 2rem;">
-                            <div class="card" style="padding: 1rem;">
-                                <div style="font-family: 'Space Mono'; font-size: 0.8rem; color: var(--color-accent-teal);">ID: RD-2024-8X92</div>
-                                <div style="font-size: 0.9rem;">Main Avenue Sector 4</div>
-                                <div style="font-size: 0.8rem; color: var(--color-text-secondary);">Status: Healthy</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="card reveal" style="min-height: 400px; padding: 0; overflow: hidden; position: relative;">
-                        <!-- Placeholder for GIS Map Visualization -->
-                        <div id="gisMap" style="width: 100%; height: 100%; background: #0f172a; display: flex; align-items: center; justify-content: center; position: relative;">
-                            <div class="map-layer" style="position: absolute; inset: 0; background-image: radial-gradient(var(--color-border) 1px, transparent 1px); background-size: 20px 20px; opacity: 0.3;"></div>
-                            <!-- Simulated Map Elements -->
-                            <svg width="100%" height="100%" style="position: absolute; top:0; left:0;">
-                                <path d="M50 200 Q 150 100 250 200 T 450 200" stroke="var(--color-accent-teal)" stroke-width="2" fill="none" class="connection-line" />
-                                <circle cx="250" cy="200" r="5" fill="var(--color-accent-green)" />
-                                <circle cx="50" cy="200" r="3" fill="var(--color-accent-blue)" />
-                                <circle cx="450" cy="200" r="3" fill="var(--color-accent-blue)" />
-                            </svg>
-                            <div style="z-index: 10; background: rgba(0,0,0,0.8); padding: 1rem; border-radius: 8px; border: 1px solid var(--color-accent-teal);">
-                                <div style="color: var(--color-accent-teal); font-family: 'Space Mono'; font-size: 0.8rem;">● LIVE DATA LINKED</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 3: System Architecture -->
-        <section id="architecture" class="section section-alt">
-            <div class="container">
-                <div class="section-header reveal">
-                    <span class="section-label">03 // Architecture</span>
-                    <h2 class="section-title">City as a Scalable Distributed System</h2>
-                    <p class="section-desc">A microservices-based architecture handling data ingestion from physical sensors to actionable insights.</p>
-                </div>
-
-                <div class="grid grid-3 reveal">
-                    <!-- Column 1 -->
-                    <div class="flex flex-col gap-md">
-                        <div class="card" style="border-left: 4px solid var(--color-accent-blue);">
-                            <h4>Data Sources</h4>
-                            <p class="text-xs">IoT Vibration Sensors</p>
-                            <p class="text-xs">Computer Vision Feeds</p>
-                            <p class="text-xs">Citizen Reporting App</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Arrow -->
-                    <div class="flex justify-center items-center mobile-hidden">
-                        <svg width="40" height="20">
-                            <line x1="0" y1="10" x2="40" y2="10" stroke="var(--color-text-secondary)" stroke-width="2" />
-                            <polygon points="35,5 40,10 35,15" fill="var(--color-text-secondary)" />
+                <div class="hero-actions">
+                    <a href="#problem" class="btn btn-primary">
+                        <span>See The Problem</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" />
                         </svg>
-                    </div>
+                    </a>
+                    <a href="#solution" class="btn btn-secondary">Explore Solutions</a>
+                </div>
 
-                    <!-- Column 2 -->
-                    <div class="flex flex-col gap-md">
-                        <div class="card" style="border-left: 4px solid var(--color-accent-teal);">
-                            <h4>Digital Twin Core</h4>
-                            <p class="text-xs">Geospatial Database</p>
-                            <p class="text-xs">Asset Registry Service</p>
-                            <p class="text-xs">Event Processing Engine</p>
-                        </div>
+                <!-- Floating Stats -->
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <div class="stat-value">45%</div>
+                        <div class="stat-label">Cost Saved</div>
                     </div>
-
-                     <!-- Arrow -->
-                     <div class="flex justify-center items-center mobile-hidden">
-                        <svg width="40" height="20">
-                            <line x1="0" y1="10" x2="40" y2="10" stroke="var(--color-text-secondary)" stroke-width="2" />
-                            <polygon points="35,5 40,10 35,15" fill="var(--color-text-secondary)" />
-                        </svg>
+                    <div class="stat-card">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">Monitoring</div>
                     </div>
-
-                    <!-- Column 3 -->
-                    <div class="flex flex-col gap-md">
-                         <div class="card" style="border-left: 4px solid var(--color-accent-green);">
-                            <h4>Analytics & Action</h4>
-                            <p class="text-xs">Predictive Maintenance AI</p>
-                            <p class="text-xs">Risk Scoring Algorithm</p>
-                            <p class="text-xs">Automated Work Orders</p>
-                        </div>
+                    <div class="stat-card">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Transparent</div>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- Section 4: Real-time Monitoring & AI -->
-        <section class="section">
-            <div class="container">
-                <div class="grid grid-2 items-center">
-                    <div class="reveal">
-                        <!-- AI Visualization -->
-                        <div class="card" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
-                            <div class="flex justify-between items-center" style="margin-bottom: 1rem;">
-                                <h4 style="margin:0;">Pothole Detection Model</h4>
-                                <span style="background: var(--color-accent-green); color: #000; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold;">98.4% ACCURACY</span>
-                            </div>
-                            <div style="height: 200px; border: 1px dashed var(--color-border); display: flex; align-items: center; justify-content: center; position: relative; border-radius: 8px; overflow: hidden;">
-                                <!-- Simulated Computer Vision Overlay -->
-                                <div style="position: absolute; top: 30%; left: 30%; width: 40%; height: 40%; border: 2px solid var(--color-accent-teal); box-shadow: 0 0 10px var(--color-accent-teal);">
-                                    <span style="position: absolute; top: -20px; left: 0; background: var(--color-accent-teal); color: #000; font-size: 0.7rem; padding: 2px 4px;">CRACK_SEVERITY_HIGH</span>
-                                </div>
-                                <div style="font-family: 'Space Mono'; font-size: 0.8rem; color: var(--color-text-muted);">processingFrame(0x84A)...</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="reveal" style="padding-left: 2rem;">
-                        <span class="section-label">04 // Predictive Maintenance</span>
-                        <h2 class="section-title">From Reactive to Predictive</h2>
-                        <p>
-                            Instead of waiting for roads to break, our AI analyzes vibration data and surface imagery to predict failures 3-6 months in advance.
-                        </p>
-                        
-                        <div class="flex flex-col gap-md" style="margin-top: 2rem;">
-                           <div class="flex gap-md">
-                               <div style="min-width: 40px; height: 40px; border-radius: 50%; background: var(--color-accent-teal); color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold;">1</div>
-                               <div>
-                                   <h4>Detection</h4>
-                                   <p class="text-sm" style="margin-bottom: 0;">IoT sensors detect micro-vibrations exceeding baseline threshold.</p>
-                               </div>
-                           </div>
-                           <div class="flex gap-md">
-                               <div style="min-width: 40px; height: 40px; border-radius: 50%; background: var(--color-surface); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-weight: bold;">2</div>
-                               <div>
-                                   <h4>Analysis</h4>
-                                   <p class="text-sm" style="margin-bottom: 0;">ML Classifier determines stress type (Structural vs Surface).</p>
-                               </div>
-                           </div>
-                           <div class="flex gap-md">
-                               <div style="min-width: 40px; height: 40px; border-radius: 50%; background: var(--color-surface); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-weight: bold;">3</div>
-                               <div>
-                                   <h4>Action</h4>
-                                   <p class="text-sm" style="margin-bottom: 0;">Automated work order generated for preventive sealing.</p>
-                               </div>
-                           </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="hero-visual">
+                <div class="visual-glow"></div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Section 5: Transparency -->
-        <section class="section section-alt">
-            <div class="container">
-                <div class="section-header reveal text-center" style="margin: 0 auto 4rem auto; text-align: center;">
-                    <span class="section-label">05 // Transparency Layer</span>
-                    <h2 class="section-title">Built-in Accountability</h2>
-                    <p class="section-desc" style="margin: 0 auto;">Using blockchain-principled immutable logs to ensure every dollar spent directly translates to infrastructure improvement.</p>
-                </div>
+    <!-- The Problem -->
+    <section id="problem" class="features">
+        <div class="section-header">
+            <span class="section-badge"
+                style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); color: #fca5a5;">Part
+                1: The Problem</span>
+            <h2 class="section-title">Why India's Infrastructure Struggles</h2>
+            <p style="color: var(--color-text-secondary); max-width: 900px; margin: 1rem auto; font-size: 1.125rem;">Not
+                due to lack of resources, but inefficient management, corruption, and poor urban planning</p>
+        </div>
 
-                <div class="grid grid-3 reveal">
-                    <div class="card text-center">
-                        <div class="text-4xl mb-4" style="color: var(--color-accent-teal);">🛡️</div>
-                        <h4>Material Verification</h4>
-                        <p class="text-sm">Automated matching of procured material quantity vs. actual road surface area covered.</p>
-                    </div>
-                    <div class="card text-center">
-                        <div class="text-4xl mb-4" style="color: var(--color-accent-teal);">📍</div>
-                        <h4>Geo-Tagged Proof</h4>
-                        <p class="text-sm">Contractors must upload geo-tagged, time-stamped visual proof for every construction phase.</p>
-                    </div>
-                    <div class="card text-center">
-                        <div class="text-4xl mb-4" style="color: var(--color-accent-teal);">🔓</div>
-                        <h4>Public Dashboards</h4>
-                        <p class="text-sm">Citizens can view project timelines, budget utilization, and contractor ratings in real-time.</p>
-                    </div>
-                </div>
+        <div class="bento-grid">
+            <div class="bento-item large" style="border-left: 3px solid #ef4444;">
+                <div class="bento-icon">💰</div>
+                <h3>Corruption & Fund Misuse</h3>
+                <p>Projects sanctioned with large budgets end up using cheap materials. Politicians and contractors
+                    prioritize personal profit over quality work, resulting in:</p>
+                <ul style="margin-top: 1rem; color: var(--color-text-secondary); list-style: none;">
+                    <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative;">
+                        <span style="position: absolute; left: 0; color: #ef4444;">✗</span>
+                        Roads full of potholes
+                    </li>
+                    <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative;">
+                        <span style="position: absolute; left: 0; color: #ef4444;">✗</span>
+                        Weak bridges and unsafe construction
+                    </li>
+                    <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative;">
+                        <span style="position: absolute; left: 0; color: #ef4444;">✗</span>
+                        Long-term safety hazards
+                    </li>
+                </ul>
             </div>
-        </section>
 
-        <!-- Section 6: Smart Retrofitting -->
-        <section class="section">
-            <div class="container">
-                <div class="grid grid-2 items-center">
-                   <div class="reveal">
-                        <span class="section-label">06 // Optimization</span>
-                        <h2 class="section-title">Smart Retrofitting for Unplanned Cities</h2>
-                        <p>
-                            We cannot rebuild existing cities from scratch. Instead, we use graph-theory algorithms to identify critical interventions that yield the highest impact on traffic flow and safety.
-                        </p>
-                        <h4 style="margin-top: 2rem;">Algorithmic Interventions:</h4>
-                        <div class="code-block" style="margin-top: 1rem;">
-                            <span class="code-comment">// Optimize Pedestrian Safety</span><br>
-                            findOptimizedPath(junctionNodes, accidentHistory) {<br>
-                            &nbsp;&nbsp;return maxSafety - minCost;<br>
-                            }
-                        </div>
-                   </div>
-                   <div class="reveal">
-                        <!-- Graph Visualization Placeholder -->
-                        <div class="card" style="height: 350px; display: flex; align-items: center; justify-content: center; position: relative;">
-                            <div style="text-align: center;">
-                                <div style="width: 200px; height: 200px; border-radius: 50%; border: 1px solid var(--color-border); position: relative; margin: 0 auto;">
-                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 10px; height: 10px; background: var(--color-accent-teal); border-radius: 50%;"></div>
-                                    <div style="position: absolute; top: 20%; left: 20%; width: 6px; height: 6px; background: var(--color-text-secondary); border-radius: 50%;"></div>
-                                    <div style="position: absolute; top: 80%; left: 70%; width: 6px; height: 6px; background: var(--color-text-secondary); border-radius: 50%;"></div>
-                                    <!-- Connecting lines would be SVG -->
-                                </div>
-                                <p class="text-xs text-muted mt-4">Connectivity Graph Analysis</p>
-                            </div>
-                        </div>
-                   </div>
-                </div>
+            <div class="bento-item" style="border-left: 3px solid #f59e0b;">
+                <div class="bento-icon">🏙️</div>
+                <h3>Poor Urban Planning</h3>
+                <p>Older cities weren't designed for modern growth. Population density increased but space utilization
+                    became chaotic.</p>
             </div>
-        </section>
 
-        <!-- Section 7: Impact -->
-        <section id="impact" class="section section-alt">
-            <div class="container">
-                <div class="section-header reveal">
-                    <span class="section-label">07 // Impact</span>
-                    <h2 class="section-title">Quantifiable Outcomes</h2>
-                </div>
-
-                <div class="grid grid-4 reveal">
-                    <div class="card text-center" style="border-top: 4px solid var(--color-accent-teal);">
-                        <div class="text-5xl font-bold" style="color: var(--color-accent-teal);">30%</div>
-                        <p class="text-sm mt-4">Reduction in Maintenance Costs</p>
-                    </div>
-                    <div class="card text-center" style="border-top: 4px solid var(--color-accent-green);">
-                        <div class="text-5xl font-bold" style="color: var(--color-accent-green);">45%</div>
-                        <p class="text-sm mt-4">Improvement in Response Time</p>
-                    </div>
-                    <div class="card text-center" style="border-top: 4px solid var(--color-accent-blue);">
-                        <div class="text-5xl font-bold" style="color: var(--color-accent-blue);">15%</div>
-                        <p class="text-sm mt-4">Decrease in Road Accidents</p>
-                    </div>
-                    <div class="card text-center" style="border-top: 4px solid #fff;">
-                        <div class="text-5xl font-bold" style="color: #fff;">100%</div>
-                        <p class="text-sm mt-4">Data Transparency</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 8: Future Scope -->
-        <section class="section">
-            <div class="container">
-                <div class="section-header reveal text-center">
-                    <span class="section-label">08 // The Vision</span>
-                    <h2 class="section-title">Scaling Toward Fully Intelligent Cities</h2>
-                </div>
-                
-                <div class="grid grid-3 reveal">
-                    <div class="card">
-                        <h4>Phase 1</h4>
-                        <p class="text-sm text-muted">Current</p>
-                        <p>Digitization of physical road assets and predictive maintenance models.</p>
-                    </div>
-                    <div class="card" style="border-color: var(--color-accent-teal);">
-                        <h4>Phase 2</h4>
-                        <p class="text-sm" style="color: var(--color-accent-teal);">Next Step</p>
-                        <p>Integration with Autonomous Vehicle networks for real-time road condition sharing.</p>
-                    </div>
-                    <div class="card">
-                         <h4>Phase 3</h4>
-                        <p class="text-sm text-muted">Future</p>
-                        <p>Expansion to water, waste, and energy grids for a Unified City OS.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="container footer-content">
-            <div class="footer-brand">
-                <h4>PolisTwin Research Initiative</h4>
-                <p class="text-xs text-muted" style="max-width: 300px;">
-                    Developing sustainable, tech-driven solutions for urban infrastructure challenges in the developing world.
+            <div class="bento-item" style="border-left: 3px solid #f59e0b;">
+                <div class="bento-icon">🚧</div>
+                <h3>Narrow & Uneven Roads</h3>
+                <p>Traffic congestion, increased accident risks, and inefficient transportation routes plague cities.
                 </p>
             </div>
-            
-            <div class="footer-links">
-                <div>
-                    <h5 class="text-xs text-muted uppercase">Project</h5>
-                    <ul class="text-sm">
-                        <li><a href="#" style="color: var(--color-text-secondary);">Methodology</a></li>
-                        <li><a href="#" style="color: var(--color-text-secondary);">Whitepaper</a></li>
-                        <li><a href="#" style="color: var(--color-text-secondary);">GitHub</a></li>
+
+            <div class="bento-item wide" style="border-left: 3px solid #dc2626;">
+                <div class="bento-icon">🔧</div>
+                <h3>Lack of Regular Maintenance</h3>
+                <p>Government focuses on new projects but forgets upkeep of existing infrastructure. Cracks in roads,
+                    broken streetlights, or blocked drainage systems go unrepaired for years, creating public hazards.
+                </p>
+            </div>
+
+            <div class="bento-item" style="border-left: 3px solid #b91c1c;">
+                <div class="bento-icon">📊</div>
+                <h3>No Resource Tracking</h3>
+                <p>Absence of transparent systems allows fund misuse and makes it difficult to assess spending.</p>
+            </div>
+
+            <div class="bento-item" style="border-left: 3px solid #991b1b;">
+                <div class="bento-icon">⚠️</div>
+                <h3>Poor Accountability</h3>
+                <p>Creates cycles of inefficiency and corruption, making sustainable development harder to achieve.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Solutions -->
+    <section id="solution" class="demo">
+        <div class="demo-container">
+            <div class="demo-header">
+                <span class="section-badge"
+                    style="background: rgba(72, 187, 120, 0.1); border-color: rgba(72, 187, 120, 0.3); color: #86efac;">Part
+                    2: The Solution</span>
+                <h2 class="section-title">Transform Without Rebuilding</h2>
+                <p
+                    style="color: var(--color-text-secondary); max-width: 900px; margin: 1rem auto; font-size: 1.125rem;">
+                    Smart planning, technology-driven tracking, and stronger governance rather than complete
+                    reconstruction</p>
+            </div>
+
+            <div class="bento-grid" style="margin-top: 3rem;">
+                <div class="bento-item large" style="border-left: 3px solid #10b981;">
+                    <div class="bento-icon">💻</div>
+                    <h3>Digital Infrastructure Management System</h3>
+                    <p>Centralized platform where all projects are recorded, tracked, and monitored publicly.</p>
+                    <ul style="margin-top: 1rem; color: var(--color-text-secondary); list-style: none;">
+                        <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: #10b981;">✓</span>
+                            Live progress updates
+                        </li>
+                        <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: #10b981;">✓</span>
+                            Estimated costs & timelines
+                        </li>
+                        <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: #10b981;">✓</span>
+                            AI & IoT sensors for automatic damage detection
+                        </li>
+                        <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: #10b981;">✓</span>
+                            Transparent accountability
+                        </li>
                     </ul>
                 </div>
-                <div>
-                    <h5 class="text-xs text-muted uppercase">Team</h5>
-                    <ul class="text-sm">
-                        <li><a href="#" style="color: var(--color-text-secondary);">Contributors</a></li>
-                        <li><a href="#" style="color: var(--color-text-secondary);">Contact</a></li>
-                    </ul>
+
+                <div class="bento-item" style="border-left: 3px solid #14b8a6;">
+                    <div class="bento-icon">🏢</div>
+                    <h3>Decentralized Maintenance Units</h3>
+                    <p>Local municipal bodies with proper audit mechanisms. Small teams for frequent checks resolve
+                        issues faster.</p>
+                </div>
+
+                <div class="bento-item" style="border-left: 3px solid #06b6d4;">
+                    <div class="bento-icon">🗺️</div>
+                    <h3>Urban Replanning in Phases</h3>
+                    <p>Redesign footpaths, enforce zoning laws, use GIS mapping to reallocate land efficiently.</p>
+                </div>
+
+                <div class="bento-item wide" style="border-left: 3px solid #0ea5e9;">
+                    <div class="bento-icon">🤝</div>
+                    <h3>Public-Private Partnerships (PPP)</h3>
+                    <p>Transparent collaboration between government, citizens, and private developers. Public dashboards
+                        display budgets and project statuses, reducing corruption while increasing efficiency.</p>
+                </div>
+
+                <div class="bento-item" style="border-left: 3px solid #3b82f6;">
+                    <div class="bento-icon">📈</div>
+                    <h3>Data-Driven Maintenance Scheduling</h3>
+                    <p>Predictive models anticipate wear and tear. Timely preventive maintenance saves resources and
+                        avoids expensive late repairs.</p>
+                </div>
+
+                <div class="bento-item" style="border-left: 3px solid #6366f1;">
+                    <div class="bento-icon">📱</div>
+                    <h3>Citizen Reporting Platforms</h3>
+                    <p>Mobile apps where citizens report potholes, broken lights. Verified reports directly alert
+                        municipal departments for active participation.</p>
                 </div>
             </div>
         </div>
-        <div class="container" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; font-size: 0.75rem; color: var(--color-text-muted);">
-            © 2026 PolisTwin Research. Academic Use Only.
+    </section>
+
+    <!-- Impact Metrics -->
+    <section id="impact" class="impact">
+        <div class="impact-container">
+            <div class="section-header">
+                <span class="section-badge">The Result</span>
+                <h2 class="section-title">From Reactive Repair to Proactive Management</h2>
+                <p
+                    style="color: var(--color-text-secondary); max-width: 900px; margin: 1rem auto; font-size: 1.125rem;">
+                    Smart monitoring, transparency, and planning turn unplanned cities into safer, better-managed places
+                </p>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">💰</div>
+                    <div class="metric-value" data-target="45">0</div>
+                    <div class="metric-suffix">%</div>
+                    <div class="metric-label">Cost Reduction</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">⚡</div>
+                    <div class="metric-value" data-target="3">0</div>
+                    <div class="metric-suffix">x</div>
+                    <div class="metric-label">Faster Response</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">🔍</div>
+                    <div class="metric-value" data-target="100">0</div>
+                    <div class="metric-suffix">%</div>
+                    <div class="metric-label">Transparency</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">🏙️</div>
+                    <div class="metric-value" data-target="24">0</div>
+                    <div class="metric-suffix">/7</div>
+                    <div class="metric-label">Monitoring</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="cta-container">
+            <div class="cta-content">
+                <h2>Ready to transform Indian cities?</h2>
+                <p>Smart monitoring, transparency, and planning can turn even unplanned cities into safer,
+                    better-managed places</p>
+                <button class="btn btn-primary btn-large">Join the Movement</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <span class="logo-icon">🏙️</span>
+                    <span class="logo-text">InfraIndia</span>
+                </div>
+                <p>Transforming infrastructure through digital intelligence</p>
+            </div>
+
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Solutions</h4>
+                    <a href="#problem">The Problem</a>
+                    <a href="#solution">Our Approach</a>
+                    <a href="#impact">Impact</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <a href="#">Documentation</a>
+                    <a href="#">Case Studies</a>
+                    <a href="#">Blog</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Connect</h4>
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Support</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 InfraIndia. Building better cities together.</p>
         </div>
     </footer>
 
@@ -430,4 +332,5 @@
     <script src="js/visualizations.js"></script>
     <script src="js/main.js"></script>
 </body>
+
 </html>
